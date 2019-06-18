@@ -2,9 +2,15 @@
 const express = require('express');
 const cors = require('cors');
 
+const dataAccesss = require('./data-access');
+
+
+
 const publicApi = require('./api/public.api');
 
 
+
+dataAccesss.initConnection();
 
 
 const app = express();

@@ -26,7 +26,7 @@ app.use(publicApi);
 
 
 
-const port = process.env.PORT || 1020;
+const port = process.env.PORT || 9020;
 
 app.listen(port, () => console.log(`dx server - port: ${port} - ${process.env.NODE_ENV || 'local'} environment`));
 // server.listen(port, () => console.log(`dx server - port: ${port} - ${process.env.NODE_ENV || 'local'} environment`));

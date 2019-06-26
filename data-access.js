@@ -23,10 +23,31 @@ async function createUser(user) {
     return user;
 }
 
+function getUserByEmail(email) {
+    return db.collection('user').findOne({ email: email.toLowerCase() });
+}
+
+async function createNewUser(email, password, display_name, avatar_url) {
+
+
+    const user = {
+        display_name,
+        email: email.toLowerCase(),
+        password,
+        avatar_url,
+    };
+
+    await db.collection('user').insertOne(user);
+
+    return user;
+}
+
 
 module.exports = {
     initConnection,
     getUsers,
     getUser,
     createUser,
+    getUserByEmail,
+    createNewUser,
 };

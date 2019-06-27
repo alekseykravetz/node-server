@@ -33,18 +33,11 @@ router.post('/api/v1/signup', async (req, res) => {
     user = await dataAccess.createNewUser(email, hashedPassword, display_name, avatar_url);
 
     delete user.password;
-
-    const refresh_token = jwtHelper.createToken(user);
-
     user.exp = getUnixTimeForXHoursAhead(EXPIRY_FOR_JWT);
-    const access_token = jwtHelper.createToken(user);
+   
+    const accessToken = jwtHelper.createToken(user);
 
-    const result = {
-        refresh_token,
-        access_token,
-    };
-
-    res.json(result);
+    res.json(accessToken);
 });
 
 router.post('/api/v1/signin', async (req, res) => {
@@ -65,22 +58,12 @@ router.post('/api/v1/signin', async (req, res) => {
     }
 
     delete user.password;
-
-    const refresh_token = jwtHelper.createToken(user);
-
     user.exp = getUnixTimeForXHoursAhead(EXPIRY_FOR_JWT);
-    const access_token = jwtHelper.createToken(user);
+    
+    const accessToken = jwtHelper.createToken(user);
 
-    const result = {
-        refresh_token,
-        access_token,
-    };
-
-    res.json(result);
+    res.json(accessToken);
 });
 
 
-
 module.exports = router;
-
-

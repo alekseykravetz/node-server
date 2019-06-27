@@ -1,16 +1,15 @@
-
-// const Sentry = require('@sentry/node');
 const express = require('express');
+const router = express.Router();
+
 const jwtHelper = require('../helpers/jwt.helper');
 
 
-const router = express.Router();
-
 router.use(async (req, res, next) => {
+   
     const bearer = req.get('AUTHORIZATION');
 
     if (!bearer) {
-        res.status(403).json('Token not provided');
+        res.status(400).send('Token not provided'); // denotes a mal-formed HTTP request
         return;
     }
 
@@ -25,8 +24,9 @@ router.use(async (req, res, next) => {
     } catch (e) {
         console.log(e);
 
-        res.status(403).json(`Token invalid: ${JSON.stringify(e)}`);
+        res.status(401).json(`Token invalid: ${JSON.stringify(e)}`); // denotes the the request was unauthorised
     }
 });
+
 
 module.exports = router;

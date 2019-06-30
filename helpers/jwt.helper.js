@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
-const SECRET = 'some secret of some kind @#RCEFW%VDTF$#GTE%45fvetgv4fDSG$E%GF%TG%ESGTG4g5ew5gsebset';
 
+const SECRET = 'some secret of some kind @#RCEFW%VDTF$#GTE%45fvetgv4fDSG$E%GF%TG%ESGTG4g5ew5gsebset';
 
 function createToken(user) {
     const token = jwt.sign(user, SECRET);
@@ -20,5 +20,6 @@ function validateToken(token) {
         });
     });
 }
+
 
 module.exports = { createToken, validateToken };

@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 
+
 const saltRounds = 14;
 
 function hashPassword(password) {
@@ -19,5 +20,6 @@ function compareHashedPassword(password, encryptedPassword) {
         });
     });
 }
+
 
 module.exports = { hashPassword, compareHashedPassword };

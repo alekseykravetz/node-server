@@ -5,16 +5,13 @@ let db;
 async function initConnection() {
     client = await MongoClient.connect('mongodb://localhost:27017/', { useNewUrlParser: true });
     db = client.db('app-db');
-
-
-    createUser({ name: 'alex', email: 'alex@alex.com' });
 }
 
 async function getUsers() {
     return db.collection('user').find({}).toArray();
 }
 
-function getUser(userId) {
+async function getUser(userId) {
     return db.collection('user').findOne({ _id: ObjectId(userId) });
 }
 
@@ -27,14 +24,13 @@ function getUserByEmail(email) {
     return db.collection('user').findOne({ email: email.toLowerCase() });
 }
 
-async function createNewUser(email, password, display_name, avatar_url) {
-
+async function createNewUser(email, password, name, avatarUrl) {
 
     const user = {
-        display_name,
+        name: name,
         email: email.toLowerCase(),
         password,
-        avatar_url,
+        avatarUrl: avatarUrl,
     };
 
     await db.collection('user').insertOne(user);

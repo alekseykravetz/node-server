@@ -6,27 +6,27 @@ async function initConnection() {
     client = await MongoClient.connect('mongodb://localhost:27017/', { useNewUrlParser: true });
     db = client.db('app-db');
 
-
-    createUser({ name: 'alex', email: 'alex@alex.com' });
+    createServerHistory();
 }
 
-async function getUsers() {
-    return db.collection('user').find({}).toArray();
+async function createServerHistory() {
+    const history = await db.collection('serverHistory').insertOne({ start: new Date().toISOString() });
+    return history;
 }
 
-function getUser(userId) {
-    return db.collection('user').findOne({ _id: ObjectId(userId) });
+async function getServerHistories() {
+    return db.collection('serverHistory').find({}).toArray();
 }
 
-async function createUser(user) {
-    await db.collection('user').insertOne(user);
-    return user;
+async function getServerHistory(id) {
+    return db.collection('serverHistory').findOne({ _id: ObjectId(id) });
 }
+
 
 
 module.exports = {
     initConnection,
-    getUsers,
-    getUser,
-    createUser,
+    createServerHistory,
+    getServerHistories,
+    getServerHistory,
 };

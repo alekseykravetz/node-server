@@ -30,7 +30,7 @@ router.post('/api/v1/signup', async (req, res) => {
 
     const hashedPassword = await bcryptHelper.hashPassword(password);
 
-    user = await dataAccess.createNewUser(email, hashedPassword, name, avatarUrl);
+    user = await dataAccess.createUser(email, hashedPassword, name, avatarUrl);
 
     delete user.password;
     user.exp = getUnixTimeForXHoursAhead(EXPIRY_FOR_JWT);

@@ -2,7 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 
-const dataAccesss = require('./data-access');
+const dataAccess = require('./data-access');
 
 
 
@@ -13,7 +13,7 @@ const privateApi = require('./api/private.api');
 
 
 
-dataAccesss.initConnection();
+dataAccess.initConnection();
 
 
 const app = express();

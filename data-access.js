@@ -5,6 +5,21 @@ let db;
 async function initConnection() {
     client = await MongoClient.connect('mongodb://localhost:27017/', { useNewUrlParser: true });
     db = client.db('app-db');
+
+    createServerHistory();
+}
+
+async function createServerHistory() {
+    const history = await db.collection('serverHistory').insertOne({ start: new Date().toISOString() });
+    return history;
+}
+
+async function getServerHistories() {
+    return db.collection('serverHistory').find({}).toArray();
+}
+
+async function getServerHistory(id) {
+    return db.collection('serverHistory').findOne({ _id: ObjectId(id) });
 }
 
 async function getUsers() {
@@ -15,22 +30,17 @@ async function getUser(userId) {
     return db.collection('user').findOne({ _id: ObjectId(userId) });
 }
 
-async function createUser(user) {
-    await db.collection('user').insertOne(user);
-    return user;
-}
-
-function getUserByEmail(email) {
+async function getUserByEmail(email) {
     return db.collection('user').findOne({ email: email.toLowerCase() });
 }
 
-async function createNewUser(email, password, name, avatarUrl) {
+async function createUser(email, password, name, avatarUrl) {
 
     const user = {
-        name: name,
+        name,
         email: email.toLowerCase(),
         password,
-        avatarUrl: avatarUrl,
+        avatarUrl,
     };
 
     await db.collection('user').insertOne(user);
@@ -39,11 +49,14 @@ async function createNewUser(email, password, name, avatarUrl) {
 }
 
 
+
 module.exports = {
     initConnection,
+    createServerHistory,
+    getServerHistories,
+    getServerHistory,
+    createUser,
     getUsers,
     getUser,
-    createUser,
     getUserByEmail,
-    createNewUser,
 };

@@ -4,22 +4,27 @@ const router = express.Router();
 const dataAccess = require('../data-access');
 
 
-router.get('/api/v1/users', async (req, res) => {
+router.get('/api/v1/server-histories', async (req, res) => {
 
-    const users = await dataAccess.getUsers();
+    const serverHistory = await dataAccess.getServerHistories();
 
-    res.json(users);
+    res.json(serverHistory);
 });
 
-router.get('/api/v1/user/:id/:name', async (req, res) => {
-    const { id, name } = req.params;
+router.get('/api/v1/server-history/:id', async (req, res) => {
 
-    const resObj = {
-        userId: id,
-        name: name
-    };
+    const { id } = req.params;
 
-    res.json(resObj);
+    const serverHistory = await dataAccess.getServerHistory(id);
+
+    res.json(serverHistory);
+});
+
+router.get('/api/v1/server-ping/:name/:message', async (req, res) => {
+    
+    const { name, message } = req.params;
+
+    res.json({name, message});
 });
 
 

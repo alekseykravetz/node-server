@@ -11,6 +11,7 @@ const loginApi = require('./api/login.api');
 const authenticationApi = require('./api/authentication.api');
 const privateApi = require('./api/private.api');
 
+const bookApi = require('./api/book.api');
 
 
 dataAccess.initConnection();
@@ -29,6 +30,7 @@ app.get('/', (req, res) => res.send('Server Online'));
 
 app.use(publicApi);
 app.use(loginApi);
+app.use(bookApi);
 
 app.use(authenticationApi); // Authenticated from here on
 

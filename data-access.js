@@ -48,7 +48,27 @@ async function createUser(email, password, name, avatarUrl) {
     return user;
 }
 
+async function getBooks() {
+    return db.collection('book').find({}).toArray();
+}
 
+async function createBook(book) {
+    await db.collection('book').insertOne(book);
+    return book;
+}
+
+async function deleteBook(bookId) {
+    const result = await db.collection('book').deleteOne({ _id: ObjectId(bookId) });
+    return result;
+}
+
+async function updateBook(book) {
+
+    book._id = ObjectId(book._id);
+
+    const result = await db.collection('book').updateOne({ _id: ObjectId(book._id) }, { $set: book });
+    return result;
+}
 
 module.exports = {
     initConnection,
@@ -59,4 +79,8 @@ module.exports = {
     getUsers,
     getUser,
     getUserByEmail,
+    getBooks,
+    createBook,
+    deleteBook,
+    updateBook
 };

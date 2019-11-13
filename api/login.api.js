@@ -14,11 +14,11 @@ function getUnixTimeForXHoursAhead(hours) {
 
 
 router.post('/api/v1/signup', async (req, res) => {
-    const { email, name, avatarUrl, password } = req.body;
+    const { email, password, name, avatarUrl } = req.body;
 
-    let user = await dataAccess.getUserByEmail(email);
+    const existingUser = await dataAccess.getUserByEmail(email);
 
-    if (user) {
+    if (existingUser) {
         res.status(403).json('User already exists');
         return;
     }
@@ -30,12 +30,12 @@ router.post('/api/v1/signup', async (req, res) => {
 
     const hashedPassword = await bcryptHelper.hashPassword(password);
 
-    user = await dataAccess.createUser(email, hashedPassword, name, avatarUrl);
+    createdUser = await dataAccess.createUser(email, hashedPassword, name, avatarUrl);
 
-    delete user.password;
-    user.exp = getUnixTimeForXHoursAhead(EXPIRY_FOR_JWT);
+    delete createdUser.password;
+    createdUser.exp = getUnixTimeForXHoursAhead(EXPIRY_FOR_JWT);
    
-    const accessToken = jwtHelper.createToken(user);
+    const accessToken = jwtHelper.createToken(createdUser);
 
     res.json(accessToken);
 });
